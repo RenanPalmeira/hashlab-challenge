@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+
+option java_multiple_files = true;
+option java_package = "com.hash.proto";
+
+package proto;
+
+service UserService {
+  rpc getUser(UserRequest) returns (UserResponse) {}
+}
+
+message User {
+    string id = 1;
+    string first_name = 2;
+    string last_name = 3;
+    int64 date_of_birth = 4;
+}
+
+message UserRequest {
+  int32 user_id = 1;
+}
+
+message UserResponse {
+  User user = 1;
+}
