@@ -1,26 +1,26 @@
 version: '3'
 services:
 
-  product-service:
-    build: product-service/Dockerfile
-    ports:
-      - "8080:8080"
-    links:
-      - hashlab-postgres
-
-  discount-service:
-    build: discount-service/Dockerfile
-    ports:
-      - "8080:8080"
-    links:
-      - hashlab-mongodb
-
-  user-service:
-    build: product-service/Dockerfile
-    ports:
-      - "8080:8080"
-    links:
-      - hashlab-postgres
+#  product-service:
+#    build: product-service/Dockerfile
+#    ports:
+#      - "8080:8080"
+#    links:
+#      - hashlab-postgres
+#
+#  discount-service:
+#    build: discount-service/Dockerfile
+#    ports:
+#      - "8080:8080"
+#    links:
+#      - hashlab-mongodb
+#
+#  user-service:
+#    build: product-service/Dockerfile
+#    ports:
+#      - "8080:8080"
+#    links:
+#      - hashlab-postgres
 
   hashlab-mongodb:
     image: mongo:4.0.11
@@ -46,5 +46,5 @@ services:
       - "9000:80"
     environment:
       - PHP_PG_ADMIN_SERVER_DESC=PostgreSQL
-      - PHP_PG_ADMIN_SERVER_HOST=db
+      - PHP_PG_ADMIN_SERVER_HOST=hashlab-postgres
       - PHP_PG_ADMIN_SERVER_PORT=5432

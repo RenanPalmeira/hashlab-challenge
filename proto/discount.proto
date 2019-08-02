@@ -6,19 +6,18 @@ option java_package = "com.hash.proto";
 package proto;
 
 service DiscountService {
-  rpc getDiscount(DiscountRequest) returns (DiscountResponse) {}
+    rpc getDiscount (DiscountRequest) returns (DiscountResponse) {}
 }
 
 message Discount {
-  float prc = 1;
-  int32 value_in_cents = 2;
+    float prc = 1;
 }
 
 message DiscountRequest {
-  int32 user_id = 1;
-  int32 product_id = 2;
+    string user_id = 1;
+    string product_id = 2;
 }
 
 message DiscountResponse {
-  Discount discount = 1;
+    Discount discount = 1;
 }

@@ -15,11 +15,30 @@ const (
 	userService = "localhost:50052"
 )
 
+func WithTimeAtStartOfDay(t time.Time) time.Time {
+	year, month, day := t.Date()
+	return time.Date(year, month, day, 0, 0, 0, 0, t.Location())
+}
+
+func ApplyDiscount(u *pb.User) float32 {
+
+	today := WithTimeAtStartOfDay(time.Now())
+
+	if today.Day() == 25 && today.Month() == 11 {
+		return 10
+	}
+
+	if WithTimeAtStartOfDay(time.Unix(u.DateOfBirth, 0)).Equal(today) {
+		return 5
+	}
+
+	return 0
+}
+
 type server struct {}
 
 func (s *server) GetDiscount(ctx context.Context, in *pb.DiscountRequest) (*pb.DiscountResponse, error) {
 	log.Printf("Received: %v", in)
-
 
 	// Set up a connection to the server.
 	conn, err := grpc.Dial(userService, grpc.WithInsecure())
@@ -36,9 +55,8 @@ func (s *server) GetDiscount(ctx context.Context, in *pb.DiscountRequest) (*pb.D
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
 	}
-	log.Printf("Greeting: %s", r.User.DateOfBirth)
 
-	return &pb.DiscountResponse{Discount: &pb.Discount{ValueInCents: 1}}, nil
+	return &pb.DiscountResponse{Discount: &pb.Discount{Prc: ApplyDiscount(r.User)}}, nil
 }
 
 func main() {
