@@ -15,15 +15,24 @@
 
 (defn product->product-with-discount
   [product user-id]
-  (let [discount-payload {:product-id (str (:id product))
+  "Convert a product to product with field discount"
+  (let [{:keys [id price_in_cents]} product
+        discount-payload {:product-id (str id)
                           :user-id    user-id}
-        discount (discount-client/get-discount discount-client discount-payload)]
-    (prn discount-payload)
-    (assoc product :discount discount)))
+
+        discount (discount-client/get-discount discount-client discount-payload)
+        percent (:prc discount)
+
+        ;; calculate value_in_cents of discount
+        value_in_cents (/ (* price_in_cents percent) 100)]
+
+    (assoc product :discount {:prc            percent
+                              :value_in_cents value_in_cents})))
 
 (defn get-products
+  "Get all products of database and hydrate each item with discount-service"
   [{:keys [headers path-info]}]
-  (let [products (db/get-products db)
+  (let [products (db/get-all-products db)
         user-id (get headers "x-user-id" "0")]
     (if products
       (ring-resp/response
@@ -32,8 +41,9 @@
         (util/error "ResourcesNotFoundError" path-info "Products not found")))))
 
 (defn get-product
+  "Get a single product by product id and hydrate with discount-service"
   [{{:keys [product-id]} :path-params
-    :keys [headers path-info]}]
+    :keys                [headers path-info]}]
 
   (let [product (db/get-product db product-id)
         user-id (get headers "x-user-id" "0")]
@@ -43,6 +53,8 @@
       (ring-resp/not-found
         (util/error "ResourceNotFoundError" path-info "Product id not found")))))
 
+;; Common interceptors
+;; Functions to manipulate and helpful our views
 (def common-interceptors
   [(body-params/body-params)
    http/json-body])
@@ -53,13 +65,13 @@
 
 ;; Consumed by product-service.server/create-server
 ;; See http/default-interceptors for additional options you can configure
-(def service {:env :prod
-              ::http/routes routes
-              ::http/resource-path "/public"
+(def service {:env                     :prod
+              ::http/routes            routes
+              ::http/resource-path     "/public"
 
-              ::http/type :jetty
+              ::http/type              :jetty
               ;;::http/host "localhost"
-              ::http/port 8080
+              ::http/port              8080
               ::http/container-options {:h2c? true
-                                        :h2? false
+                                        :h2?  false
                                         :ssl? false}})

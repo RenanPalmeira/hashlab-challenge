@@ -11,7 +11,6 @@
                           :description]
                  :from   [:product]})
 
-
 (def n (take 100 (names)))
 (def description (take 100 (paragraphs)))
 (def price (take 100 (iterate inc 1)))
@@ -28,13 +27,15 @@
                     (map vector n description price create_date))
                   (sql/format))))
 
-(defn get-products
+(defn get-all-products
+  "Extending base-query and use where to get all active products"
   [db]
   (d/query db (-> base-query
                   (helpers/where [:= :status true])
                   (sql/format))))
 
 (defn get-product
+  "Extending base-query and use where to get product by id and if is active"
   [db product-id]
   (let [id (util/parse-uuid product-id)
         query (-> base-query

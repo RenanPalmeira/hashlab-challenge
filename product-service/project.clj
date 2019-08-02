@@ -18,23 +18,27 @@
                  [io.pedestal/pedestal.service "0.5.7"]
                  [io.pedestal/pedestal.jetty "0.5.7"]
 
+                 ;; database
                  [org.clojure/java.jdbc "0.7.9"]
                  [org.postgresql/postgresql "42.2.6"]
                  [honeysql "0.9.4"]
 
+                 ;; gRPC
                  [javax.annotation/javax.annotation-api "1.2"]
 
                  [com.google.protobuf/protobuf-java "3.9.0"]
 
                  [io.netty/netty-codec-http2 "4.1.38.Final"]
 
-                 [faker "0.2.2"]
-
                  [io.grpc/grpc-netty "1.22.1" :exclusions [io.netty/netty-codec-http2 io.grpc/grpc-core]]
                  [io.grpc/grpc-protobuf "1.22.1"]
                  [io.grpc/grpc-core "1.22.1" :exclusions [com.google.errorprone/error_prone_annotations io.grpc/grpc-api]]
                  [io.grpc/grpc-stub "1.22.1"]
 
+                 ;; test
+                 [faker "0.2.2"]
+
+                 ;; logging
                  [ch.qos.logback/logback-classic "1.2.3" :exclusions [org.slf4j/slf4j-api]]
                  [org.slf4j/jul-to-slf4j "1.7.26"]
                  [org.slf4j/jcl-over-slf4j "1.7.26"]
