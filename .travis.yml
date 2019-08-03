@@ -20,9 +20,8 @@ matrix:
         - openjdk12
 
     - language: go
-      before_script:
-        - cd $GOPATH
       before_install:
+        - git clone --depth=50 --branch=master https://github.com/RenanPalmeira/hashlab-challenge.git hashlab-challenge
         - curl -L https://github.com/protocolbuffers/protobuf/releases/download/v3.9.0/protoc-3.9.0-linux-x86_64.zip -o /tmp/protoc.zip
         - unzip /tmp/protoc.zip -d $HOME/protoc
         - export PATH=$HOME/protoc/bin:$PATH
@@ -34,6 +33,8 @@ matrix:
       script:
         - go test -v -race ./...
       install: true
+      git:
+        depth: false
       branches:
         only:
           - master
