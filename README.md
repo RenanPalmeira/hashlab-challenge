@@ -17,7 +17,7 @@ Dividi em três serviços, `user-service`, `discount-service` e `product-service
 
 # Antes de executar
 
-Confira se no PATH do seu sistema Possui o comando `protoc`
+Confira se no PATH do seu sistema possui o comando `protoc`
 
 Veja como instalar caso não o tenha [https://grpc.io/docs/quickstart/go/#install-protocol-buffers-v3](https://grpc.io/docs/quickstart/go/#install-protocol-buffers-v3)
 
