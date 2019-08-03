@@ -1,5 +1,7 @@
 # hashlab-challenge
 
+[![Build Status](https://travis-ci.org/RenanPalmeira/hashlab-challenge.svg?branch=master)](https://travis-ci.org/RenanPalmeira/hashlab-challenge)
+
 Implementação do [teste de back-end](https://github.com/hashlab/hiring) da [hashlab](https://www.hash.com.br/), o teste consiste em escrever 2 serviços (serviço de desconto, serviço de produto) e fazer uma comunicação tolerante a falhas entre eles, utilizando o protocolo [gRPC](https://grpc.io/).
 
 # Stack
