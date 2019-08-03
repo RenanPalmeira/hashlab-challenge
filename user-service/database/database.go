@@ -18,7 +18,7 @@ type MongoDB struct {
 	Database string `cfg:"HASHLAB_MONGODB_DATABASE" cfgDefault:"admin" cfgRequired:"true"`
 }
 
-func ConfigDB(m MongoDB) (*mongo.Database, error) {
+func ConnectDB(m MongoDB) (*mongo.Database, error) {
 	uri := fmt.Sprintf(`mongodb://%s:%s@%s/%s?authMechanism=SCRAM-SHA-1`,
 		m.Username,
 		m.Password,
@@ -39,6 +39,7 @@ func ConfigDB(m MongoDB) (*mongo.Database, error) {
 	if err != nil {
 		return nil, fmt.Errorf("todo: mongo client couldn't connect with background context: %v", err)
 	}
+
 	todoDB := client.Database("hashlab")
 	return todoDB, nil
 }
@@ -52,9 +53,9 @@ func SetupDB() (*mongo.Database, error) {
 		return nil, errors.New("mongodb configuration not found")
 	}
 
-	db, err := ConfigDB(config)
+	db, err := ConnectDB(config)
 	if err != nil {
-		log.Printf("todo: database configuration failed: %v", err)
+		log.Printf("database configuration failed: %v", err)
 		return nil, errors.New("client is disconnected")
 	}
 

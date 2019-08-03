@@ -56,6 +56,7 @@ func (s *server) GetUser(ctx context.Context, in *pb.UserRequest) (*pb.UserRespo
 
 func main() {
 
+	// get configurations from env or defaults
 	config := HashlabConfiguration{}
 
 	err := goconfig.Parse(&config)
@@ -64,7 +65,7 @@ func main() {
 		return
 	}
 
-	log.Print("Creating your user-service...")
+	log.Printf("Creating your user-service on port %v ...", config.HashlabUserServicePort)
 
 	// create a listen
 	lis, err := net.Listen("tcp", config.HashlabUserServicePort)

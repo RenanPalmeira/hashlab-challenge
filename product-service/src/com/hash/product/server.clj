@@ -1,7 +1,6 @@
 (ns com.hash.product.server
   (:gen-class) ; for -main method in uberjar
   (:require [io.pedestal.http :as server]
-            [io.pedestal.http.route :as route]
             [com.hash.product.service :as service]))
 
 (defn -main

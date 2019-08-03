@@ -39,7 +39,7 @@
    (body-params/body-params)
    http/json-body])
 
-;; Tabular routes
+;; Routes
 (def routes #{["/product" :get (conj common-interceptors `get-products)]
               ["/product/:product-id" :get (conj common-interceptors `get-product)]})
 

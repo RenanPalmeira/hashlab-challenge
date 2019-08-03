@@ -4,7 +4,9 @@
             [com.hash.product.config :as config]
             [com.hash.product.util :as util]))
 
-;; A simple interceptor to put in request db and discount-client
+;; A simple interceptor to put in request db, discount-client, pagination and
+;; shortcut get current url (path and query string together,
+;; the pedestal don't have native form to get this things in same variables)
 (def hashlab-components
   (interceptor/interceptor
     {:name  ::hashlab-components

@@ -62,8 +62,10 @@ func (s *server) GetDiscount(ctx context.Context, in *pb.DiscountRequest) (*pb.D
 
 	today := time.Now().UTC()
 
+	// convert unix date of birth user to go time
 	userDateOfBirth := time.Unix(userResponse.User.DateOfBirth, 0).UTC()
 
+	// call business logic to apply discount or not
 	discount := logic.ApplyDiscount(today, userDateOfBirth)
 
 	if discount == 0 {
@@ -75,6 +77,7 @@ func (s *server) GetDiscount(ctx context.Context, in *pb.DiscountRequest) (*pb.D
 
 func main() {
 
+	// get configurations from env or defaults
 	config := HashlabConfiguration{}
 
 	err := goconfig.Parse(&config)

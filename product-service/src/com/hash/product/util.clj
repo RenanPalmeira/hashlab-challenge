@@ -38,24 +38,32 @@
 ;; DATABASE PAGINATION
 
 (defn page-offset
+  "Calculate offset to SQL queries"
   [page per-page]
   (* (dec page) per-page))
 
-(defn total-pages [total per-page]
+(defn total-pages
+  "Calculate total pages available based in total of database"
+  [total per-page]
   (-> (if (zero? total) 1 total)
       (/ per-page)
       (Math/ceil)
       (int)))
 
-(defn next-page [total-pages curr-page]
+(defn next-page
+  "Calculate next number page"
+  [total-pages curr-page]
   (if (< curr-page total-pages)
     (inc curr-page)))
 
-(defn prev-page [curr-page]
+(defn prev-page
+  "Calculate previous number page"
+  [curr-page]
   (if (> curr-page 1)
     (dec curr-page)))
 
 (defn make-pagination
+  "Compose functions of pagination to create pagination map"
   [request per-page]
   (let [endpoint (:path-info request)
         page (parse-int (:page (:query-params request {}) "1"))]
@@ -83,7 +91,7 @@
 ;; JSON RESPONSES
 
 (defn make-path-info-with-query-string
-  "docstring"
+  "Join path-info and query-string the pedestal don't have native form to get this things in same variables"
   [request]
   (let [query-string (if (:query-string request) (str "?" (:query-string request)) "")]
     (str (:path-info request) query-string)))
