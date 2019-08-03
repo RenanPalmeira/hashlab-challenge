@@ -1,9 +1,10 @@
 (ns com.hash.product.client.discount
-  (:import (com.hash.proto DiscountRequest Discount DiscountResponse DiscountServiceGrpc DiscountServiceGrpc$DiscountServiceBlockingStub)))
+  (:require [io.pedestal.log :as log])
+  (:import (com.hash.proto DiscountRequest Discount DiscountResponse DiscountServiceGrpc$DiscountServiceBlockingStub)))
 
 (defn make-discount-request
   "Create a DiscountRequest from clojure map"
-  [{:keys [product-id user-id]}]
+  [product-id user-id]
   (-> (DiscountRequest/newBuilder)
       (.setProductId product-id)
       (.setUserId user-id)
@@ -28,10 +29,13 @@
 (defn get-discount
   "Get a discount with client and payload with use a compose functions
   and if any error return nil to don't stop flow"
-  [discount-client payload]
-  (try
-    (->> (make-discount-request payload)
-         (execute-discount-request discount-client)
-         (discount-response->discount)
-         (discount->map))
-    (catch Exception e nil)))
+  [discount-client product-id user-id]
+  (let [{:keys [grpc-client]} discount-client]
+    (try
+      (->> (make-discount-request product-id user-id)
+           (execute-discount-request grpc-client)
+           (discount-response->discount)
+           (discount->map))
+      (catch Exception e
+        (log/error :msg (.getMessage e))
+        nil))))

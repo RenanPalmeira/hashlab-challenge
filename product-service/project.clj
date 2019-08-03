@@ -4,14 +4,15 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
 
-  :plugins [[lein-protoc "0.5.0"]]
+  :plugins [[lein-protoc "0.5.0"]
+            [jonase/eastwood "0.3.5"]]
 
   :protoc-version "3.9.0"
   :protoc-grpc {:version "1.22.1"}
-  :proto-target-path "../proto"
+  :proto-target-path "proto"
 
-  :proto-source-paths ["../proto"]
-  :java-source-paths ["../proto"]
+  :proto-source-paths ["proto"]
+  :java-source-paths ["proto"]
 
   :dependencies [[org.clojure/clojure "1.10.1"]
 
@@ -27,6 +28,7 @@
                  [javax.annotation/javax.annotation-api "1.2"]
 
                  [com.google.protobuf/protobuf-java "3.9.0"]
+                 [com.google.protobuf/protoc "3.9.0" :extension "pom"]
 
                  [io.netty/netty-codec-http2 "4.1.38.Final"]
 
@@ -38,13 +40,16 @@
                  ;; test
                  [faker "0.2.2"]
 
+                 ;; settings
+                 [environ "1.1.0"]
+
                  ;; logging
                  [ch.qos.logback/logback-classic "1.2.3" :exclusions [org.slf4j/slf4j-api]]
                  [org.slf4j/jul-to-slf4j "1.7.26"]
                  [org.slf4j/jcl-over-slf4j "1.7.26"]
                  [org.slf4j/log4j-over-slf4j "1.7.26"]]
 
-  :global-vars {*warn-on-reflection* true}
+  ;:global-vars {*warn-on-reflection* true}
 
   :min-lein-version "2.0.0"
   :resource-paths ["config", "resources"]

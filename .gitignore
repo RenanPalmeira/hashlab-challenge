@@ -3,6 +3,9 @@
 .idea/
 *.pb.go
 *.iml
+*.proto
+*.java
+.eastwood
 
 proto/*
 !proto/*.proto

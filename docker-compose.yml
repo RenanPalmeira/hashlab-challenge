@@ -1,34 +1,45 @@
 version: '3'
 services:
 
-#  product-service:
-#    build: product-service/Dockerfile
-#    ports:
-#      - "8080:8080"
-#    links:
-#      - hashlab-postgres
-#
-#  discount-service:
-#    build: discount-service/Dockerfile
-#    ports:
-#      - "8080:8080"
-#    links:
-#      - hashlab-mongodb
-#
-#  user-service:
-#    build: product-service/Dockerfile
-#    ports:
-#      - "8080:8080"
-#    links:
-#      - hashlab-postgres
+  product-service:
+    build: product-service/
+    ports:
+      - "8080:8080"
+    links:
+      - hashlab-postgres
+      - discount-service
+    environment:
+      - HASHLAB_DISCOUNT_SERVICE_URI=discount-service:50051
+      - HASHLAB_POSTGRES_CONNECTION_URI=jdbc:postgresql://hashlab-postgres:5432/hashlab?user=hashlab&password=hashlab
+
+  discount-service:
+    build: discount-service
+    links:
+      - user-service
+    ports:
+      - "50051:50051"
+    environment:
+      - HASHLAB_USER_SERVICE_URI=user-service:50052
+
+  user-service:
+    build: user-service
+    links:
+      - hashlab-mongodb
+    ports:
+      - "50052:50052"
+    environment:
+      - HASHLAB_MONGODB_HOST=hashlab-mongodb
+      - HASHLAB_MONGODB_USERNAME=hashlab
+      - HASHLAB_MONGODB_PASSWORD=hashlab
+      - HASHLAB_MONGODB_DATABASE=admin
 
   hashlab-mongodb:
     image: mongo:4.0.11
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: hashlab
-      MONGO_INITDB_ROOT_PASSWORD: hashlab
     ports:
       - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=hashlab
+      - MONGO_INITDB_ROOT_PASSWORD=hashlab
 
   hashlab-postgres:
     image: postgres:9.6.14
