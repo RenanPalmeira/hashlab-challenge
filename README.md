@@ -29,11 +29,11 @@ Basta rodar no seu terminal `sh scripts/distribute_proto.sh`, esse script vai co
 
 `docker-compose up` vai inicializar todos os serviços e os banco de dados
 
-`scripts/import_data_tests.sh` insere algums produtos e usuários para testar
+`scripts/import_data_tests.sh` insere alguns produtos e usuários para testar
 
 # Endpoints
 
-`GET /product` - Lista todos os produtos fazendo chamadas ao `discount-service` para cada produto, por padrão a paginação está em 20 itens por página
+`GET /product` - Listagem de todos os produtos fazendo chamadas ao `discount-service` para cada produto, por padrão a paginação está em 20 itens por página
 
 Exemplo
 ```
@@ -81,7 +81,7 @@ Exemplo
 }
 ```
 
-`GET /product/{product-id}` - Pega um produto por id
+`GET /product/{product-id}` - Pegando um produto por id
 
 Exemplo
 ```
@@ -99,8 +99,9 @@ Exemplo
 
 ## Tolerante a falhas
 
-Caso o `discount-service` ou `user-service` parar de executar ou retornar algum erro, o `product-service` não para, ele continua listando a diferença é que o sub-resource de `discount` vai retornar como nulo
+Caso o `discount-service` ou `user-service` parar de executar/retornar algum erro, o `product-service` continua listando os produtos, a diferença é que o sub-resource de `discount` vai retornar como nulo
 
+Exemplo
 ```
 {
     "data": [
@@ -182,7 +183,7 @@ Quando não é encontrado nenhum produto ou o id requisitado não foi encontrado
 
 - `go.mongodb.org/mongo-driver/mongo` - driver oficial de MongoDB para a linguagem Go
 - `github.com/golang/protobuf/protoc-gen-go` - plugin para implementar arquivos proto para Go
-- `github.com/crgimenes/goconfig` - acessar variáveis de ambiente de forma mais simples e com a possibilidade de configurar vlores padrão
+- `github.com/crgimenes/goconfig` - acessar variáveis de ambiente
 
 # Estrutura
 
@@ -220,7 +221,7 @@ product-service
 │               ├── client
 │               │   └── discount.clj // interface com o discount-service
 │               ├── config.clj // configurações
-│               ├── controller.clj // responsável por chamar o banco de dados e discount-service para executar as regras de négocio 
+│               ├── controller.clj // responsável por chamar o banco de dados e discount-service para executar as regras de negócio 
 │               ├── db.clj // interface com o banco de dados PostgreSQL
 │               ├── interceptors
 │               │   └── components.clj // utilitários para criar conexões com banco de dados e discount-service
