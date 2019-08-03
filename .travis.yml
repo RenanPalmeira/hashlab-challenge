@@ -26,6 +26,7 @@ matrix:
         - curl -L https://github.com/protocolbuffers/protobuf/releases/download/v3.9.0/protoc-3.9.0-linux-x86_64.zip -o /tmp/protoc.zip
         - unzip /tmp/protoc.zip -d $HOME/protoc
         - export PATH=$HOME/protoc/bin:$PATH
+        - cd hashlab-challenge
         - sh scripts/distribute_proto.sh
         - go get google.golang.org/grpc
         - go get github.com/golang/protobuf/protoc-gen-go
