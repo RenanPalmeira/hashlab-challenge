@@ -37,7 +37,7 @@ func (s *server) GetUser(ctx context.Context, in *pb.UserRequest) (*pb.UserRespo
 	// create a value into which the result can be decoded
 	var u User
 
-	err = db.Collection("user").FindOne(context.TODO(), bson.D{primitive.E{"_id", in.UserId}}).Decode(&u)
+	err = db.Collection("user").FindOne(context.TODO(), bson.D{primitive.E{Key: "_id", Value: in.UserId}}).Decode(&u)
 
 	if err != nil {
 		log.Printf("id %v was not found", in.UserId)
