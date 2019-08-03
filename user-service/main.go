@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/crgimenes/goconfig"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -36,11 +37,10 @@ func (s *server) GetUser(ctx context.Context, in *pb.UserRequest) (*pb.UserRespo
 	// create a value into which the result can be decoded
 	var u User
 
-	err = db.Collection("user").FindOne(context.TODO(), bson.D{{"_id", in.UserId}}).Decode(&u)
+	err = db.Collection("user").FindOne(context.TODO(), bson.D{primitive.E{"_id", in.UserId}}).Decode(&u)
 
 	if err != nil {
-		log.Printf("id  %v was not found", in.UserId)
-		log.Print(err)
+		log.Printf("id %v was not found", in.UserId)
 		return nil, status.Error(codes.NotFound, "id was not found")
 	}
 
