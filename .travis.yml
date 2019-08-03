@@ -31,7 +31,6 @@ matrix:
         - go get github.com/crgimenes/goconfig
       script:
         - go test -v -race ./...
-      install: true
       branches:
         only:
           - master
