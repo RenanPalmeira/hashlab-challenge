@@ -1,0 +1,22 @@
+matrix:
+  include:
+    - language: clojure
+      before_install:
+        - curl -L https://github.com/protocolbuffers/protobuf/releases/download/v3.9.0/protoc-3.9.0-linux-x86_64.zip -o /tmp/protoc.zip
+        - unzip /tmp/protoc.zip -d $HOME/protoc
+        - export PATH=$HOME/protoc/bin:$PATH
+        - sh scripts/distribute_proto.sh
+        - cd product-service
+      lein: lein
+      script: lein protoc && lein test
+      branches:
+        only:
+          - master
+      jdk:
+        - openjdk8
+        - openjdk9
+        - openjdk10
+        - openjdk11
+        - openjdk12
+
+    
