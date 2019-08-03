@@ -1,8 +1,7 @@
 (ns com.hash.product.util
   (:require [clojure.string :as str])
   (:import (io.grpc ManagedChannelBuilder)
-           (java.util UUID)
-           (com.hash.proto DiscountServiceGrpc)))
+           (java.util UUID)))
 
 ;; CONFIGURATION
 
@@ -27,13 +26,6 @@
       (.usePlaintext)
       (.build)))
 
-(defn create-grpc-service
-  "Create a map with grpc client and grpc channel"
-  [{:keys [host port]}]
-  (let [channel (create-channel host (parse-int port))]
-    {:grpc-client (DiscountServiceGrpc/newBlockingStub channel)
-     :grpc-channel channel}))
-
 ;; DATABASE
 
 (defn parse-uuid
@@ -42,6 +34,36 @@
   (try
     (UUID/fromString value)
     (catch Exception e nil)))
+
+;; DATABASE PAGINATION
+
+(defn page-offset
+  [page per-page]
+  (* (dec page) per-page))
+
+(defn total-pages [total per-page]
+  (-> (if (zero? total) 1 total)
+      (/ per-page)
+      (Math/ceil)
+      (int)))
+
+(defn next-page [total-pages curr-page]
+  (if (< curr-page total-pages)
+    (inc curr-page)))
+
+(defn prev-page [curr-page]
+  (if (> curr-page 1)
+    (dec curr-page)))
+
+(defn make-pagination
+  [request per-page]
+  (let [endpoint (:path-info request)
+        page (parse-int (:page (:query-params request {}) "1"))]
+
+    {:page-offset  (page-offset page per-page)
+     :current-page page
+     :endpoint     endpoint
+     :per-page     per-page}))
 
 ;; VALUES IN CENTS
 
@@ -60,11 +82,16 @@
 
 ;; JSON RESPONSES
 
-(defn resources
+(defn make-path-info-with-query-string
+  "docstring"
+  [request]
+  (let [query-string (if (:query-string request) (str "?" (:query-string request)) "")]
+    (str (:path-info request) query-string)))
+
+(defn data-resources
   "Common to return a list"
   [values]
-  {:count (count values)
-   :data values})
+  {:data values})
 
 (defn error
   "Common to return error"

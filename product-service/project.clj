@@ -43,20 +43,18 @@
                  ;; settings
                  [environ "1.1.0"]
 
+                 ;; test
+                 [mock-clj "0.2.0"]
+
                  ;; logging
                  [ch.qos.logback/logback-classic "1.2.3" :exclusions [org.slf4j/slf4j-api]]
                  [org.slf4j/jul-to-slf4j "1.7.26"]
                  [org.slf4j/jcl-over-slf4j "1.7.26"]
                  [org.slf4j/log4j-over-slf4j "1.7.26"]]
 
-  ;:global-vars {*warn-on-reflection* true}
-
   :min-lein-version "2.0.0"
   :resource-paths ["config", "resources"]
-  ;; If you use HTTP/2 or ALPN, use the java-agent to pull in the correct alpn-boot dependency
-  ;:java-agents [[org.mortbay.jetty.alpn/jetty-alpn-agent "2.0.5"]]
-  :profiles {:dev {:aliases {"run-dev" ["trampoline" "run" "-m" "product-service.server/run-dev"]}
-                   :dependencies [[io.pedestal/pedestal.service-tools "0.5.7"]]}
-             :uberjar {:aot [com.hash.product.server]}}
+
+  :profiles {:uberjar {:aot [com.hash.product.server]}}
 
   :main ^{:skip-aot true} com.hash.product.server)

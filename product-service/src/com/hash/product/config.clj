@@ -9,5 +9,6 @@
   (or (env :hashlab-postgres-connection-uri) "jdbc:postgresql://localhost:5432/hashlab?user=hashlab&password=hashlab"))
 
 ;; Map of configurations
-(def config {:db {:connection-uri db-connection-uri}
-             :services {:discount-service discount-service-uri}})
+(def config {:db         {:connection-uri db-connection-uri}
+             :services   {:discount-service discount-service-uri}
+             :pagination {:per-page (or (env :hashlab-production-service-per-page) 20)}})

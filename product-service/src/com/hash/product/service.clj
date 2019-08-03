@@ -8,16 +8,16 @@
 
 (defn get-products
   "Get user-id from header and send to controller to get all products"
-  [{{:keys [db discount-client]} :components
-    :keys [headers path-info]}]
+  [{{:keys [db discount-client pagination]} :components
+    :keys [headers path-info-with-query-string]}]
+
   (let [user-id (get headers "x-user-id" "0")
-        products (controller/get-products user-id db discount-client)]
+        products (controller/get-products user-id db discount-client pagination)]
 
     (if products
-      (ring-resp/response
-        (util/resources products))
+      (ring-resp/response products)
       (ring-resp/not-found
-        (util/error "ResourcesNotFoundError" path-info "Products not found")))))
+        (util/error "ResourcesNotFoundError" (str path-info-with-query-string) "Products not found")))))
 
 (defn get-product
   "Get product-id from url and user-id from header and send to controller to get a product"

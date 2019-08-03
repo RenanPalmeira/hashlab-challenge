@@ -11,6 +11,7 @@ services:
     environment:
       - HASHLAB_DISCOUNT_SERVICE_URI=discount-service:50051
       - HASHLAB_POSTGRES_CONNECTION_URI=jdbc:postgresql://hashlab-postgres:5432/hashlab?user=hashlab&password=hashlab
+      - HASHLAB_PRODUCTION_SERVICE_PER_PAGE=20
 
   discount-service:
     build: discount-service
@@ -20,6 +21,7 @@ services:
       - "50051:50051"
     environment:
       - HASHLAB_USER_SERVICE_URI=user-service:50052
+      - HASHLAB_DISCOUNT_SERVICE_PORT=:50051
 
   user-service:
     build: user-service
@@ -28,6 +30,7 @@ services:
     ports:
       - "50052:50052"
     environment:
+      - HASHLAB_USER_SERVICE_PORT=:50052
       - HASHLAB_MONGODB_HOST=hashlab-mongodb
       - HASHLAB_MONGODB_USERNAME=hashlab
       - HASHLAB_MONGODB_PASSWORD=hashlab

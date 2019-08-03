@@ -1,6 +1,11 @@
 (ns com.hash.product.client.discount
-  (:require [io.pedestal.log :as log])
-  (:import (com.hash.proto DiscountRequest Discount DiscountResponse DiscountServiceGrpc$DiscountServiceBlockingStub)))
+  (:require [io.pedestal.log :as log]
+            [com.hash.product.util :as util])
+  (:import (com.hash.proto DiscountRequest
+                           Discount
+                           DiscountResponse
+                           DiscountServiceGrpc$DiscountServiceBlockingStub
+                           DiscountServiceGrpc)))
 
 (defn make-discount-request
   "Create a DiscountRequest from clojure map"
@@ -39,3 +44,10 @@
       (catch Exception e
         (log/error :msg (.getMessage e))
         nil))))
+
+(defn create-grpc-service
+  "Create a map with grpc client and grpc channel"
+  [{:keys [host port]}]
+  (let [channel (util/create-channel host (util/parse-int port))]
+    {:grpc-client  (DiscountServiceGrpc/newBlockingStub channel)
+     :grpc-channel channel}))
