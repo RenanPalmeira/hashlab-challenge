@@ -23,6 +23,7 @@ RUN go get google.golang.org/grpc
 RUN go get github.com/golang/protobuf/protoc-gen-go
 # Install mongo-driver
 RUN go get go.mongodb.org/mongo-driver/mongo
+RUN go get github.com/crgimenes/goconfig
 
 ## Compile proto files
 RUN protoc --go_out=plugins=grpc:. proto/*.proto

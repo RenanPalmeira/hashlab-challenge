@@ -2,6 +2,8 @@ package main
 
 import (
 	"context"
+	"fmt"
+	"github.com/crgimenes/goconfig"
 	"go.mongodb.org/mongo-driver/bson"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
@@ -9,14 +11,13 @@ import (
 	pb "hashlab-challenge/proto"
 	. "hashlab-challenge/user-service/database"
 	. "hashlab-challenge/user-service/model"
-	"hashlab-challenge/user-service/util"
 	"log"
 	"net"
 )
 
-var (
-	port = ":" + util.GetEnv("HASHLAB_USER_SERVICE_PORT", "50052")
-)
+type HashlabConfiguration struct {
+	HashlabUserServicePort string `cfg:"HASHLAB_USER_SERVICE_PORT" cfgDefault:":50052" cfgRequired:"true"`
+}
 
 // a type to implement proto.UserServiceServer
 type server struct{}
@@ -55,10 +56,18 @@ func (s *server) GetUser(ctx context.Context, in *pb.UserRequest) (*pb.UserRespo
 
 func main() {
 
+	config := HashlabConfiguration{}
+
+	err := goconfig.Parse(&config)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
 	log.Print("Creating your user-service...")
 
 	// create a listen
-	lis, err := net.Listen("tcp", port)
+	lis, err := net.Listen("tcp", config.HashlabUserServicePort)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}

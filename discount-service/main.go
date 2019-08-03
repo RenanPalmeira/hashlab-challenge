@@ -2,22 +2,26 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
-	"hashlab-challenge/discount-service/util"
 	"log"
 	"net"
 	"time"
+
+	"github.com/crgimenes/goconfig"
 
 	"google.golang.org/grpc"
 	"hashlab-challenge/discount-service/logic"
 	pb "hashlab-challenge/proto"
 )
 
-var (
-	port = ":" + util.GetEnv("HASHLAB_DISCOUNT_SERVICE_PORT", "50051")
-	userService = util.GetEnv("HASHLAB_USER_SERVICE_URI", "localhost:50052")
-)
+type HashlabConfiguration struct {
+	DiscountServicePort string `cfg:"HASHLAB_DISCOUNT_SERVICE_PORT" cfgDefault:":50051" cfgRequired:"true"`
+	UserServiceUri      string `cfg:"HASHLAB_USER_SERVICE_URI" cfgDefault:"localhost:50052" cfgRequired:"true"`
+}
+
+var config *HashlabConfiguration
 
 // Get user from user-service
 func GetUserResponse(conn *grpc.ClientConn, userId string) (*pb.UserResponse, error) {
@@ -34,14 +38,14 @@ func GetUserResponse(conn *grpc.ClientConn, userId string) (*pb.UserResponse, er
 }
 
 // a type to implement proto.DiscountServiceServer
-type server struct {}
+type server struct{}
 
 // apply body to proto.DiscountServiceServer.GetDiscount
 func (s *server) GetDiscount(ctx context.Context, in *pb.DiscountRequest) (*pb.DiscountResponse, error) {
 	log.Printf("Received: %v", in)
 
 	// Set up a connection to the server.
-	conn, err := grpc.Dial(userService, grpc.WithInsecure())
+	conn, err := grpc.Dial(config.UserServiceUri, grpc.WithInsecure())
 
 	if err != nil {
 		log.Printf("did not connect: %v", err)
@@ -71,10 +75,18 @@ func (s *server) GetDiscount(ctx context.Context, in *pb.DiscountRequest) (*pb.D
 
 func main() {
 
-	log.Print("Creating your discount-service...")
+	config := HashlabConfiguration{}
+
+	err := goconfig.Parse(&config)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	log.Printf("Creating your discount-service on port %v ...", config.DiscountServicePort)
 
 	// create a listen
-	lis, err := net.Listen("tcp", port)
+	lis, err := net.Listen("tcp", config.DiscountServicePort)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
@@ -86,4 +98,3 @@ func main() {
 		log.Fatalf("failed to serve: %v", err)
 	}
 }
-
