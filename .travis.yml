@@ -27,11 +27,11 @@ matrix:
         - unzip /tmp/protoc.zip -d $HOME/protoc
         - export PATH=$HOME/protoc/bin:$PATH
         - cd hashlab-challenge
-        - sh scripts/distribute_proto.sh
         - go get google.golang.org/grpc
         - go get github.com/golang/protobuf/protoc-gen-go
         - go get go.mongodb.org/mongo-driver/mongo
         - go get github.com/crgimenes/goconfig
+        - sh scripts/distribute_proto.sh
       script:
         - go test -v -race ./...
       git:
