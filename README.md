@@ -12,28 +12,28 @@ Dividi em três serviços, `user-service`, `discount-service` e `product-service
 ## Serviços
 
 - `user-service` é escrito em Go e usa o MongoDB como banco de dados
-- `discount-service` é escrito em Go e faz acessos ao `user-service`
-- `product-service` é escrito em Clojure, usa o PostgreSQL como banco de dados e faz acessos ao `discount-service`
+- `discount-service` é escrito em Go e faz chamadas ao `user-service`
+- `product-service` é escrito em Clojure, usa o PostgreSQL como banco de dados e faz chamadas ao `discount-service`
 
 # Antes de executar
 
-Confira se no PATH do seu sistema possiu o comando `protoc`
+Confira se no PATH do seu sistema Possui o comando `protoc`
 
 Veja como instalar caso não o tenha [https://grpc.io/docs/quickstart/go/#install-protocol-buffers-v3](https://grpc.io/docs/quickstart/go/#install-protocol-buffers-v3)
 
 ## Distribuindo a pasta proto
 
-Basta rodar no seu terminal `sh scripts/distribute_proto.sh`, esse script vai compilar os arquivos proto utilizando o `protoc` e copiar e colar nas pastas de serviços 
+Basta rodar no seu terminal `sh scripts/distribute_proto.sh`, esse script vai compilar os arquivos proto utilizando o `protoc` depois copiar e colar nas pastas de serviços 
 
 # Executando
 
 `docker-compose up` vai inicializar todos os serviços e os banco de dados
 
-`scripts/import_data_tests.sh` importando algums produtos e usuários para testar
+`scripts/import_data_tests.sh` insere algums produtos e usuários para testar
 
 # Endpoints
 
-`GET /product` - Listagem de todos os produtos e fazendo chamadas ao `discount-service` para cada produto, por padrão a paginação está em 20 itens por página
+`GET /product` - Lista todos os produtos fazendo chamadas ao `discount-service` para cada produto, por padrão a paginação está em 20 itens por página
 
 Exemplo
 ```
@@ -81,7 +81,7 @@ Exemplo
 }
 ```
 
-`GET /product/{product-id}` - Pegando um produto por id
+`GET /product/{product-id}` - Pega um produto por id
 
 Exemplo
 ```
@@ -99,7 +99,7 @@ Exemplo
 
 ## Tolerante a falhas
 
-Caso o `discount-service` ou `user-service` parar de executar ou retornar algum erro, o `product-service` não para, ele continua listando a diferença é que com o sub-resource de `discount` retornar como nulo
+Caso o `discount-service` ou `user-service` parar de executar ou retornar algum erro, o `product-service` não para, ele continua listando a diferença é que o sub-resource de `discount` vai retornar como nulo
 
 ```
 {
@@ -163,9 +163,9 @@ Quando não é encontrado nenhum produto ou o id requisitado não foi encontrado
 - `HASHLAB_DISCOUNT_SERVICE_PORT` porta do `discount-service` padrão: `:50051`
 - `HASHLAB_USER_SERVICE_URI` endereço do `user-service` padrão: `localhost:50052`
 - `HASHLAB_USER_SERVICE_PORT` porta do `user-service` padrão: `:50052`
-- `HASHLAB_POSTGRES_CONNECTION_URI` JDBC url of PostgreSQL database padrão: `jdbc:postgresql://localhost:5432/hashlab?user=hashlab&password=hashlab`
+- `HASHLAB_POSTGRES_CONNECTION_URI` URL JDBC para acessar o PostgreSQL padrão: `jdbc:postgresql://localhost:5432/hashlab?user=hashlab&password=hashlab`
 - `HASHLAB_MONGODB_HOST` endereço do MongoDB padrão: `localhost:27017`
-- `HASHLAB_MONGODB_USERNAME` nome de usuario do MongoDB padrão: `hashlab`
+- `HASHLAB_MONGODB_USERNAME` nome de usuário do MongoDB padrão: `hashlab`
 - `HASHLAB_MONGODB_PASSWORD` senha do MongoDB padrão: `hashlab`
 - `HASHLAB_MONGODB_DATABASE` banco de dados do MongoDB padrão: `hashlab`
 
@@ -174,7 +174,7 @@ Quando não é encontrado nenhum produto ou o id requisitado não foi encontrado
 ## Clojure
 
 - `pedestal`  - web framework
-- `honeysql` - uma camada para converter mapas clojure em SQL
+- `honeysql` - uma camada para converter mapas Clojure em SQL
 - `lein-protoc` - plugin para implementar arquivos proto para Clojure
 - `environ` - acessar variáveis de ambiente
 
@@ -182,7 +182,7 @@ Quando não é encontrado nenhum produto ou o id requisitado não foi encontrado
 
 - `go.mongodb.org/mongo-driver/mongo` - driver oficial de MongoDB para a linguagem Go
 - `github.com/golang/protobuf/protoc-gen-go` - plugin para implementar arquivos proto para Go
-- `github.com/crgimenes/goconfig` - acessar variáveis de ambiente de forma mais simples e com a possibilidade de configurar padrões
+- `github.com/crgimenes/goconfig` - acessar variáveis de ambiente de forma mais simples e com a possibilidade de configurar vlores padrão
 
 # Estrutura
 
@@ -202,8 +202,8 @@ user-service
 ```
 discount-service
 ├── logic
-│   ├── logic.go ;; regras de negócio para conceder ou não desconto 
-│   └── logic_test.go ;; teste das regras de negócio
+│   ├── logic.go // regras de negócio para conceder ou não desconto 
+│   └── logic_test.go // teste das regras de negócio
 ├── main.go // implementa o serviço gRPC e inicializa o servidor gRPC
 └── util
     └── util.go // utilitários para lidar com dados e a comunicação entre o user-service
