@@ -21,6 +21,7 @@ matrix:
 
     - language: go
       before_install:
+        - cd $GOPATH
         - curl -L https://github.com/protocolbuffers/protobuf/releases/download/v3.9.0/protoc-3.9.0-linux-x86_64.zip -o /tmp/protoc.zip
         - unzip /tmp/protoc.zip -d $HOME/protoc
         - export PATH=$HOME/protoc/bin:$PATH
@@ -31,6 +32,7 @@ matrix:
         - go get github.com/crgimenes/goconfig
       script:
         - go test -v -race ./...
+      install: true
       branches:
         only:
           - master
