@@ -19,4 +19,23 @@ matrix:
         - openjdk11
         - openjdk12
 
-    
+    - language: go
+      before_install:
+        - curl -L https://github.com/protocolbuffers/protobuf/releases/download/v3.9.0/protoc-3.9.0-linux-x86_64.zip -o /tmp/protoc.zip
+        - unzip /tmp/protoc.zip -d $HOME/protoc
+        - export PATH=$HOME/protoc/bin:$PATH
+        - sh scripts/distribute_proto.sh
+        - go install github.com/golangci/golangci-lint/cmd/golangci-lint
+        - go get google.golang.org/grpc
+        - go get github.com/golang/protobuf/protoc-gen-go
+        - go get go.mongodb.org/mongo-driver/mongo
+        - go get github.com/crgimenes/goconfig
+      script:
+        - golangci-lint run
+        - go test -v -race ./...
+      install: true
+      branches:
+        only:
+          - master
+      go:
+        - 1.12.x
