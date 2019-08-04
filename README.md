@@ -102,7 +102,7 @@ Exemplo
 }
 ```
 
-## Tolerante a falhas
+## Tolerância a falhas
 
 Caso o `discount-service` ou `user-service` parar de executar/retornar algum erro, o `product-service` continua listando os produtos, a diferença é que o sub-resource de `discount` vai retornar como nulo
 
