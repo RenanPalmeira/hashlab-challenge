@@ -21,20 +21,18 @@ type HashlabConfiguration struct {
 	UserServiceUri      string `cfg:"HASHLAB_USER_SERVICE_URI" cfgDefault:"localhost:50052" cfgRequired:"true"`
 }
 
-var config *HashlabConfiguration
-
 // Get user from user-service
 func GetUserResponse(conn *grpc.ClientConn, userId string) (*pb.UserResponse, error) {
 
 	// Connection to the server.
-	discountServiceClient := pb.NewUserServiceClient(conn)
+	userServiceClient := pb.NewUserServiceClient(conn)
 
 	// set timeout
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
 	// Call getUser from user-service
-	return discountServiceClient.GetUser(ctx, &pb.UserRequest{UserId: userId})
+	return userServiceClient.GetUser(ctx, &pb.UserRequest{UserId: userId})
 }
 
 // a type to implement proto.DiscountServiceServer
@@ -45,6 +43,15 @@ func (s *server) GetDiscount(ctx context.Context, in *pb.DiscountRequest) (*pb.D
 	log.Printf("Received: %v", in)
 
 	// Set up a connection to the server.
+	// get configurations from env or defaults
+	config := HashlabConfiguration{}
+
+	err := goconfig.Parse(&config)
+	if err != nil {
+		fmt.Println(err)
+		return nil, status.Error(codes.Internal, "did not connect")
+	}
+
 	conn, err := grpc.Dial(config.UserServiceUri, grpc.WithInsecure())
 
 	if err != nil {

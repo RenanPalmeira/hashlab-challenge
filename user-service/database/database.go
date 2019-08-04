@@ -15,15 +15,17 @@ type MongoDB struct {
 	Host string `cfg:"HASHLAB_MONGODB_HOST" cfgDefault:"localhost:27017" cfgRequired:"true"`
 	Username string `cfg:"HASHLAB_MONGODB_USERNAME" cfgDefault:"hashlab" cfgRequired:"true"`
 	Password string `cfg:"HASHLAB_MONGODB_PASSWORD" cfgDefault:"hashlab" cfgRequired:"true"`
-	Database string `cfg:"HASHLAB_MONGODB_DATABASE" cfgDefault:"admin" cfgRequired:"true"`
+	Database string `cfg:"HASHLAB_MONGODB_DATABASE" cfgDefault:"hashlab" cfgRequired:"true"`
+	AuthSource string `cfg:"HASHLAB_MONGODB_AUTH_SOURCE" cfgDefault:"admin"`
 }
 
 func ConnectDB(m MongoDB) (*mongo.Database, error) {
-	uri := fmt.Sprintf(`mongodb://%s:%s@%s/%s?authMechanism=SCRAM-SHA-1`,
+	uri := fmt.Sprintf(`mongodb://%s:%s@%s/%s?&authSource=%s&authMechanism=SCRAM-SHA-1`,
 		m.Username,
 		m.Password,
 		m.Host,
 		m.Database,
+		m.AuthSource,
 	)
 
 	client, err := mongo.NewClient(options.Client().ApplyURI(uri))

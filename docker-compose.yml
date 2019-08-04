@@ -14,7 +14,7 @@ services:
       - HASHLAB_PRODUCTION_SERVICE_PER_PAGE=20
 
   discount-service:
-    build: discount-service
+    build: discount-service/
     links:
       - user-service
     ports:
@@ -24,7 +24,7 @@ services:
       - HASHLAB_DISCOUNT_SERVICE_PORT=:50051
 
   user-service:
-    build: user-service
+    build: user-service/
     links:
       - hashlab-mongodb
     ports:
@@ -34,7 +34,8 @@ services:
       - HASHLAB_MONGODB_HOST=hashlab-mongodb
       - HASHLAB_MONGODB_USERNAME=hashlab
       - HASHLAB_MONGODB_PASSWORD=hashlab
-      - HASHLAB_MONGODB_DATABASE=admin
+      - HASHLAB_MONGODB_DATABASE=hashlab
+      - HASHLAB_MONGODB_AUTH_SOURCE=admin
 
   hashlab-mongodb:
     image: mongo:4.0.11

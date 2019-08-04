@@ -174,7 +174,8 @@ Quando não é encontrado nenhum produto ou o id requisitado não foi encontrado
 - `HASHLAB_MONGODB_HOST` endereço do MongoDB padrão: `localhost:27017`
 - `HASHLAB_MONGODB_USERNAME` nome de usuário do MongoDB padrão: `hashlab`
 - `HASHLAB_MONGODB_PASSWORD` senha do MongoDB padrão: `hashlab`
-- `HASHLAB_MONGODB_DATABASE` banco de dados do MongoDB padrão: `admin`
+- `HASHLAB_MONGODB_DATABASE` banco de dados do MongoDB padrão: `hashlab`
+- `HASHLAB_MONGODB_AUTH_SOURCE` banco de dados de autorização do MongoDB padrão: `admin`
 
 # Bibliotecas
 

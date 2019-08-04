@@ -36,18 +36,23 @@
   and if any error return nil to don't stop flow"
   [discount-client product-id user-id]
   (let [{:keys [grpc-client]} discount-client]
-    (try
-      (->> (make-discount-request product-id user-id)
-           (execute-discount-request grpc-client)
-           (discount-response->discount)
-           (discount->map))
-      (catch Exception e
-        (log/error :msg (.getMessage e))
-        nil))))
+    (if grpc-client
+      (try
+        (->> (make-discount-request product-id user-id)
+             (execute-discount-request grpc-client)
+             (discount-response->discount)
+             (discount->map))
+        (catch Exception e
+          (log/error :msg (.getMessage e))
+          nil))
+      (-> (log/error :msg "UNAVAILABLE grpc-client")
+          {}))))
 
 (defn create-grpc-service
   "Create a map with grpc client and grpc channel"
   [{:keys [host port]}]
-  (let [channel (util/create-channel host (util/parse-int port))]
+  (if-let [channel (util/create-channel host (util/parse-int port))]
     {:grpc-client  (DiscountServiceGrpc/newBlockingStub channel)
-     :grpc-channel channel}))
+     :grpc-channel channel}
+    {:grpc-client  nil
+     :grpc-channel nil}))

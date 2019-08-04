@@ -1,7 +1,8 @@
 (ns com.hash.product.util
   (:require [clojure.string :as str])
   (:import (io.grpc ManagedChannelBuilder)
-           (java.util UUID)))
+           (java.util UUID)
+           (java.net InetSocketAddress Socket)))
 
 ;; CONFIGURATION
 
@@ -19,12 +20,22 @@
 
 ;; gRPC
 
+(defn service-is-alive
+  "Ping host and port to return if service is up/down"
+  [^String host ^Integer port]
+  (try
+    (-> (InetSocketAddress. host port)
+        (#(.connect (Socket.) % 1000))
+        (empty?))
+    (catch Exception e false)))
+
 (defn create-channel
   "Utility to create a gRPC channel"
   [host port]
-  (-> (ManagedChannelBuilder/forAddress host port)
-      (.usePlaintext)
-      (.build)))
+  (if-let [_ (service-is-alive host port)] ;; check if service is alive before gRPC running to prevent retry's
+    (-> (ManagedChannelBuilder/forAddress host port)
+        (.usePlaintext)
+        (.build))))
 
 ;; DATABASE
 
