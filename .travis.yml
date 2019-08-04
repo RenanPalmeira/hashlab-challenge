@@ -32,7 +32,7 @@ matrix:
         - go get go.mongodb.org/mongo-driver/mongo
         - go get github.com/crgimenes/goconfig
         - curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | sh -s -- -b $(go env GOPATH)/bin v1.17.1
-        - sh scripts/distribute_proto.sh
+        - protoc --go_out=plugins=grpc:. proto/*.proto
       script:
         - golangci-lint run
         - go test -v -race ./...
