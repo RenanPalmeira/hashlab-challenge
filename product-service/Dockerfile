@@ -8,7 +8,7 @@ RUN lein deps
 
 RUN lein protoc
 
-RUN mv "$( && lein uberjar | sed -n 's/^Created \(.*standalone\.jar\)/\1/p')" product-service-1.0.0-standalone.jar
+RUN mv "$(lein uberjar | sed -n 's/^Created \(.*standalone\.jar\)/\1/p')" product-service-1.0.0-standalone.jar
 
 FROM java:8-alpine
 
