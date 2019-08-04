@@ -17,15 +17,9 @@ Dividi em três serviços, `user-service`, `discount-service` e `product-service
 - `discount-service` é escrito em Go e faz chamadas ao `user-service`
 - `product-service` é escrito em Clojure, usa o PostgreSQL como banco de dados e faz chamadas ao `discount-service`
 
-# Antes de executar
-
-Confira se no PATH do seu sistema possui o comando `protoc`
-
-Veja como instalar caso não o tenha [https://grpc.io/docs/quickstart/go/#install-protocol-buffers-v3](https://grpc.io/docs/quickstart/go/#install-protocol-buffers-v3)
-
 ## Distribuindo a pasta proto
 
-Basta rodar no seu terminal `sh scripts/distribute_proto.sh`, esse script vai compilar os arquivos proto utilizando o `protoc` depois copiar e colar nas pastas de serviços 
+Rode em seu terminal o comando `sh scripts/distribute_proto.sh`, esse script vai copiar e colar a pasta proto nos serviços 
 
 # Executando
 
@@ -246,7 +240,7 @@ product-service
 
 # Deploy
 
-Utilizei o Google Cloud Platform com Docker e CoreOS para se aproximar ao máximo da stack da Hash.
+Utilizei o [Google Cloud Platform](https://cloud.google.com/) com Docker e [CoreOS](https://coreos.com/) para se aproximar ao máximo da stack da Hash.
 
 # Links
 
