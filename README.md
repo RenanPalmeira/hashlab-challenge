@@ -85,7 +85,7 @@ Exemplo
 }
 ```
 
-`GET /product/{product-id}` - Pegando um produto por id junto fazendo uma chamada ao `discount-service` para o produto quando for enviado o header X-USER-ID
+`GET /product/{product-id}` - Pegando um produto por id junto fazendo uma chamada ao `discount-service` quando for enviado o header X-USER-ID
 
 Exemplo
 ```
