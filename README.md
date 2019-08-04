@@ -29,13 +29,15 @@ Basta rodar no seu terminal `sh scripts/distribute_proto.sh`, esse script vai co
 
 # Executando
 
-`docker-compose up` vai inicializar todos os serviços e os banco de dados
+`docker-compose up` inicia todos os serviços e os banco de dados (inserindo algums produtos e usuários)
 
-`scripts/import_data_tests.sh` insere alguns produtos e usuários para testar
+## Usuários disponíveis 
+
+Em `scripts/mongo/users.json` temos 29 usuários para testar o envio do header X-USER-ID
 
 # Endpoints
 
-`GET /product` - Listagem de todos os produtos fazendo chamadas ao `discount-service` para cada produto, por padrão a paginação está em 20 itens por página
+`GET /product` - Listagem de todos os produtos fazendo chamadas ao `discount-service` para cada produto quando for enviado o header X-USER-ID, por padrão a paginação está em 20 itens por página
 
 Exemplo
 ```
@@ -83,7 +85,7 @@ Exemplo
 }
 ```
 
-`GET /product/{product-id}` - Pegando um produto por id
+`GET /product/{product-id}` - Pegando um produto por id junto fazendo uma chamada ao `discount-service` para o produto quando for enviado o header X-USER-ID
 
 Exemplo
 ```
@@ -170,7 +172,7 @@ Quando não é encontrado nenhum produto ou o id requisitado não foi encontrado
 - `HASHLAB_MONGODB_HOST` endereço do MongoDB padrão: `localhost:27017`
 - `HASHLAB_MONGODB_USERNAME` nome de usuário do MongoDB padrão: `hashlab`
 - `HASHLAB_MONGODB_PASSWORD` senha do MongoDB padrão: `hashlab`
-- `HASHLAB_MONGODB_DATABASE` banco de dados do MongoDB padrão: `hashlab`
+- `HASHLAB_MONGODB_DATABASE` banco de dados do MongoDB padrão: `admin`
 
 # Bibliotecas
 

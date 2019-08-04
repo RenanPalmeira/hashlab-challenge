@@ -40,14 +40,19 @@ services:
     image: mongo:4.0.11
     ports:
       - "27017:27017"
+    volumes:
+      - ./scripts/mongo:/docker-entrypoint-initdb.d/
     environment:
       - MONGO_INITDB_ROOT_USERNAME=hashlab
+      - MONGO_INITDB_DATABASE=hashlab
       - MONGO_INITDB_ROOT_PASSWORD=hashlab
 
   hashlab-postgres:
     image: postgres:9.6.14
     ports:
       - "5432:5432"
+    volumes:
+      - ./scripts/psql:/docker-entrypoint-initdb.d/
     environment:
       - POSTGRES_USER=hashlab
       - POSTGRES_PASSWORD=hashlab

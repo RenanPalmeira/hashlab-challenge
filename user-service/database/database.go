@@ -28,7 +28,7 @@ func ConnectDB(m MongoDB) (*mongo.Database, error) {
 
 	client, err := mongo.NewClient(options.Client().ApplyURI(uri))
 	if err != nil {
-		return nil, fmt.Errorf("todo: couldn't connect to mongo: %v", err)
+		return nil, fmt.Errorf("couldn't connect to mongo: %v", err)
 	}
 
 	ctx := context.Background()
@@ -37,11 +37,10 @@ func ConnectDB(m MongoDB) (*mongo.Database, error) {
 
 	err = client.Connect(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("todo: mongo client couldn't connect with background context: %v", err)
+		return nil, fmt.Errorf("mongo client couldn't connect with background context: %v", err)
 	}
 
-	todoDB := client.Database("hashlab")
-	return todoDB, nil
+	return client.Database(m.Database), nil
 }
 
 func SetupDB() (*mongo.Database, error) {
