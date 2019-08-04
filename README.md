@@ -29,7 +29,7 @@ Basta rodar no seu terminal `sh scripts/distribute_proto.sh`, esse script vai co
 
 # Executando
 
-`docker-compose up` inicia todos os serviços e os banco de dados (inserindo algums produtos e usuários)
+`docker-compose up` inicia todos os serviços e os banco de dados (inserindo alguns produtos e usuários)
 
 ## Usuários disponíveis 
 
