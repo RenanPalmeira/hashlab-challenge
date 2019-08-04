@@ -62,7 +62,8 @@ Exemplo
                 "pct": 10,
                 "value_in_cents": 1000
             }
-        }
+        },
+        ...
     ],
     "links": {
         "self": {
@@ -122,7 +123,8 @@ Exemplo
             "title": "Nelson Kassulke",
             "description": "Praesentium rerum nihil dicta reiciendis cumque et architecto. Quia illo quia qui voluptate. Voluptatem beatae rerum ratione nam. Consequatur qui accusantium exercitationem recusandae vitae et reiciendis.",
             "discount": null
-        }
+        },
+        ...
     ],
     "links": {
         "self": {
