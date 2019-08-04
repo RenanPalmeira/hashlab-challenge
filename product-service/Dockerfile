@@ -1,4 +1,4 @@
-FROM clojure:alpine AS build-env
+FROM clojure:openjdk-8-lein AS build-env
 
 WORKDIR /usr/src/product-service
 
@@ -6,7 +6,9 @@ COPY . /usr/src/product-service
 
 RUN lein deps
 
-RUN mv "$(lein protoc && lein uberjar | sed -n 's/^Created \(.*standalone\.jar\)/\1/p')" product-service-1.0.0-standalone.jar
+RUN lein protoc
+
+RUN mv "$( && lein uberjar | sed -n 's/^Created \(.*standalone\.jar\)/\1/p')" product-service-1.0.0-standalone.jar
 
 FROM java:8-alpine
 
