@@ -1,3 +1,4 @@
+;; component to interface with discount-service
 (ns com.hash.product.client.discount
   (:require [io.pedestal.log :as log]
             [com.hash.product.util :as util])

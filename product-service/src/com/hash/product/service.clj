@@ -1,3 +1,4 @@
+;; component to interface with HTTP
 (ns com.hash.product.service
   (:require [io.pedestal.http :as http]
             [io.pedestal.http.body-params :as body-params]

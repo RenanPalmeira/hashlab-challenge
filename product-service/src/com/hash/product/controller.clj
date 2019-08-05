@@ -1,3 +1,4 @@
+;; component to connect logic and external things (database/discount-service)
 (ns com.hash.product.controller
   (:require [com.hash.product.logic :as logic]
             [com.hash.product.db :as db]
