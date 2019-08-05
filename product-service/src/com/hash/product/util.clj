@@ -32,10 +32,12 @@
 (defn create-channel
   "Utility to create a gRPC channel"
   [host port]
-  (if-let [_ (service-is-alive host port)] ;; check if service is alive before gRPC running to prevent retry's
-    (-> (ManagedChannelBuilder/forAddress host port)
-        (.usePlaintext)
-        (.build))))
+  (try
+    (if-let [_ (service-is-alive host port)] ;; check if service is alive before gRPC running to prevent retry's
+      (-> (ManagedChannelBuilder/forAddress host port)
+          (.usePlaintext)
+          (.build)))
+    (catch Exception e nil)))
 
 ;; DATABASE
 

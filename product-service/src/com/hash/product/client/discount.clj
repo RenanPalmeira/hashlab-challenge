@@ -36,14 +36,13 @@
   "Get a discount with client and payload with use a compose functions
   and if any error return nil to don't stop flow"
   [discount-client product-id user-id]
-  (let [{:keys [grpc-client grpc-channel]} discount-client]
+  (let [{:keys [grpc-client]} discount-client]
     (if grpc-client
       (try
         (->> (make-discount-request product-id user-id)
              (execute-discount-request grpc-client)
              (discount-response->discount)
-             (discount->map)
-             (#((.shutdown grpc-channel) %)))
+             (discount->map))
         (catch Exception e
           (log/error :msg (.getMessage e))
           nil))
