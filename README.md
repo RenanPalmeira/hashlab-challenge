@@ -240,7 +240,7 @@ product-service
 
 # Deploy
 
-O deploy foi feito utlizando o [Google Cloud Platform](https://cloud.google.com/) com Docker e [CoreOS](https://coreos.com/) para se aproximar ao máximo da stack da Hash.
+O deploy foi feito utilizando o [Google Cloud Platform](https://cloud.google.com/) com Docker e [CoreOS](https://coreos.com/) para se aproximar ao máximo da stack da Hash.
 
 # Links
 
