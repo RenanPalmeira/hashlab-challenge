@@ -38,23 +38,23 @@ Exemplo
 {
     "data": [
         {
-            "id": "897d4615-0e56-4871-bb7e-2048a4f369c9",
+            "id": "19a06d17-b9a4-4e48-9e31-50b07c05f1d1",
             "price_in_cents": 10000,
-            "title": "um livro legal",
-            "description": "testad",
+            "title": "Product 1",
+            "description": "Description 1",
             "discount": {
-                "pct": 10,
-                "value_in_cents": 1000
+                "prc": 5.0,
+                "value_in_cents": 500
             }
         },
         {
-            "id": "d3406a60-438b-4c73-a88b-df1b0e63d64a",
-            "price_in_cents": 1,
-            "title": "Thurman Bogan",
-            "description": "Vero occaecati officia qui eveniet hic et tempora. Similique cupiditate dolorem omnis qui blanditiis quos voluptas delectus. Accusantium praesentium reiciendis excepturi doloremque ea tenetur. Dolor officiis quia unde labore nihil. Praesentium ad non sunt rerum quas eum amet.",
+            "id": "2aa90a5e-8c31-4121-8529-751719c988fc",
+            "price_in_cents": 18084,
+            "title": "Product 2",
+            "description": "Description 2",
             "discount": {
-                "pct": 10,
-                "value_in_cents": 1000
+                "prc": 5.0,
+                "value_in_cents": 904
             }
         },
         ...
@@ -65,8 +65,8 @@ Exemplo
             "href": "/product?page=1"
         },
         "last": {
-            "number": 21,
-            "href": "/product?page=21"
+            "number": 3,
+            "href": "/product?page=3"
         },
         "first": {
             "number": 1,
@@ -85,13 +85,13 @@ Exemplo
 Exemplo
 ```
 {
-    "id": "897d4615-0e56-4871-bb7e-2048a4f369c9",
-    "price_in_cents": 10000,
-    "title": "um livro legal",
-    "description": "testad",
+    "id": "0f642355-3841-4bc7-8a3c-1985383578e3",
+    "price_in_cents": 22202,
+    "title": "Product 3",
+    "description": "Description 3",
     "discount": {
-        "pct": 10,
-        "value_in_cents": 1000
+        "prc": 5.0,
+        "value_in_cents": 1110
     }
 }
 ```
@@ -105,38 +105,38 @@ Exemplo
 {
     "data": [
         {
-            "id": "d3406a60-438b-4c73-a88b-df1b0e63d64a",
-            "price_in_cents": 1000,
-            "title": "Thurman Bogan",
-            "description": "Vero occaecati officia qui eveniet hic et tempora. Similique cupiditate dolorem omnis qui blanditiis quos voluptas delectus. Accusantium praesentium reiciendis excepturi doloremque ea tenetur. Dolor officiis quia unde labore nihil. Praesentium ad non sunt rerum quas eum amet.",
+            "id": "19a06d17-b9a4-4e48-9e31-50b07c05f1d1",
+            "price_in_cents": 10000,
+            "title": "Product 1",
+            "description": "Description 1",
             "discount": null
         },
         {
-            "id": "83479ffc-8ee1-4850-aff0-26a25d134bc0",
-            "price_in_cents": 190000,
-            "title": "Nelson Kassulke",
-            "description": "Praesentium rerum nihil dicta reiciendis cumque et architecto. Quia illo quia qui voluptate. Voluptatem beatae rerum ratione nam. Consequatur qui accusantium exercitationem recusandae vitae et reiciendis.",
+            "id": "2aa90a5e-8c31-4121-8529-751719c988fc",
+            "price_in_cents": 18084,
+            "title": "Product 2",
+            "description": "Description 2",
             "discount": null
         },
         ...
     ],
     "links": {
-        "self": {
-            "number": 1,
-            "href": "/product?page=1"
-        },
-        "last": {
-            "number": 11,
-            "href": "/product?page=11"
-        },
-        "first": {
-            "number": 1,
-            "href": "/product?page=1"
-        },
-        "next": {
-            "number": 2,
-            "href": "/product?page=2"
-        }
+         "self": {
+             "number": 1,
+             "href": "/product?page=1"
+         },
+         "last": {
+             "number": 3,
+             "href": "/product?page=3"
+         },
+         "first": {
+             "number": 1,
+             "href": "/product?page=1"
+         },
+         "next": {
+             "number": 2,
+             "href": "/product?page=2"
+         }
     }
 }
 ```
