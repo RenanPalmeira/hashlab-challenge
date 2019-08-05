@@ -1,5 +1,6 @@
 (ns com.hash.product.util
-  (:require [clojure.string :as str])
+  (:require [clojure.string :as str]
+            [io.pedestal.log :as log])
   (:import (io.grpc ManagedChannelBuilder)
            (java.util UUID)
            (java.net InetSocketAddress Socket)))
@@ -37,7 +38,9 @@
       (-> (ManagedChannelBuilder/forAddress host port)
           (.usePlaintext)
           (.build)))
-    (catch Exception e nil)))
+    (catch Exception e
+      (log/error :msg "grpc-channel no create")
+      nil)))
 
 ;; DATABASE
 
