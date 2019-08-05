@@ -8,7 +8,7 @@
 
 (defn get-products
   "Get user-id from header and send to controller to get all products"
-  [{{:keys [db discount-client pagination]} :components
+  [{{:keys [db discount-client pagination]} :components ;; from interceptors
     :keys [headers path-info-with-query-string]}]
 
   (let [user-id (get headers "x-user-id" "0")
@@ -22,11 +22,12 @@
 (defn get-product
   "Get product-id from url and user-id from header and send to controller to get a product"
   [{{:keys [product-id]} :path-params
-    {:keys [db discount-client]} :components
+    {:keys [db discount-client]} :components ;; from interceptors
     :keys  [headers path-info]}]
 
   (let [user-id (get headers "x-user-id" "0")
         product (controller/get-product product-id user-id db discount-client)]
+
     (if product
       (ring-resp/response product)
       (ring-resp/not-found
@@ -35,7 +36,7 @@
 ;; Common interceptors
 ;; Functions to manipulate and helpful our views
 (def common-interceptors
-  [components/hashlab-components
+  [components/hashlab-components ;; add in views :components with db, discount-client, pagination
    (body-params/body-params)
    http/json-body])
 
@@ -50,7 +51,7 @@
               ::http/resource-path     "/public"
 
               ::http/type              :jetty
-              ::http/host             "0.0.0.0"
+              ::http/host              "0.0.0.0"
               ::http/port              8080
               ::http/container-options {:h2c? true
                                         :h2?  false

@@ -13,7 +13,8 @@
   [price_in_cents percent]
   (let [values-not-empty (and percent price_in_cents)
 
-        value_in_cents (if values-not-empty (calculate-value-in-cents price_in_cents percent)) ;; calculate value_in_cents of discount
+        ;; calculate value_in_cents of discount
+        value_in_cents (if values-not-empty (calculate-value-in-cents price_in_cents percent))
 
         discount-body {:prc            percent
                        :value_in_cents value_in_cents}]

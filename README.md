@@ -2,14 +2,14 @@
 
 [![Build Status](https://travis-ci.org/RenanPalmeira/hashlab-challenge.svg?branch=master)](https://travis-ci.org/RenanPalmeira/hashlab-challenge)
 
-Implementação do [teste de back-end](https://github.com/hashlab/hiring) da [hashlab](https://www.hash.com.br/), o teste consiste em escrever 2 serviços (serviço de desconto, serviço de produto) e fazer uma comunicação tolerante a falhas entre eles, utilizando o protocolo [gRPC](https://grpc.io/).
+Implementação do [teste de back-end](https://github.com/hashlab/hiring) da [hashlab](https://www.hash.com.br/), o teste consiste em escrever 2 serviços (serviço de desconto, serviço de produto) e fazer uma comunicação tolerante a falhas entre eles, utilizando [gRPC](https://grpc.io/).
 
 # Stack
 
-Dividi em três serviços, `user-service`, `discount-service` e `product-service` utilizando os banco de dados e linguagens mais próximas da stack da hash
+O projeto está dividida em 3 (três) serviços `user-service`, `discount-service` e `product-service` utilizando os banco de dados e linguagens mais próximas da stack da hash.
 
-- Clojure e Go
-- PostgreSQL e MongoDB
+- Linguagens: Clojure e Go
+- Bancos de dados: PostgreSQL e MongoDB
 
 ## Serviços
 
@@ -17,17 +17,17 @@ Dividi em três serviços, `user-service`, `discount-service` e `product-service
 - `discount-service` é escrito em Go e faz chamadas ao `user-service`
 - `product-service` é escrito em Clojure, usa o PostgreSQL como banco de dados e faz chamadas ao `discount-service`
 
-## Distribuindo a pasta proto
+# Distribuindo a pasta `proto`
 
-Rode em seu terminal o comando `sh scripts/distribute_proto.sh`, esse script vai copiar e colar a pasta proto nos serviços 
+Rode em seu terminal o comando `sh scripts/distribute_proto.sh`, esse script vai copiar/colar a pasta `proto` nos serviços.
 
 # Executando
 
-`docker-compose up` inicia todos os serviços e os banco de dados (inserindo alguns produtos e usuários)
+`docker-compose up` inicia todos os serviços e os banco de dados (inserindo alguns produtos e usuários).
 
 ## Usuários disponíveis 
 
-Em `scripts/mongo/users.json` temos 29 usuários para testar o envio do header X-USER-ID
+Em `scripts/mongo/users.json` temos 29 usuários (com `birth_date` em UTC e com dias do mês de agosto de 2019) para testar o envio do header X-USER-ID.
 
 # Endpoints
 
@@ -177,13 +177,13 @@ Quando não é encontrado nenhum produto ou o id requisitado não foi encontrado
 
 - `pedestal`  - web framework
 - `honeysql` - uma camada para converter mapas Clojure em SQL
-- `lein-protoc` - plugin para implementar arquivos proto para Clojure
+- `lein-protoc` - plugin para implementar arquivos `.proto` para Clojure
 - `environ` - acessar variáveis de ambiente
 
 ## Go
 
 - `go.mongodb.org/mongo-driver/mongo` - driver oficial de MongoDB para a linguagem Go
-- `github.com/golang/protobuf/protoc-gen-go` - plugin para implementar arquivos proto para Go
+- `github.com/golang/protobuf/protoc-gen-go` - plugin para implementar arquivos `.proto` para Go
 - `github.com/crgimenes/goconfig` - acessar variáveis de ambiente
 
 # Estrutura
@@ -240,7 +240,7 @@ product-service
 
 # Deploy
 
-Utilizei o [Google Cloud Platform](https://cloud.google.com/) com Docker e [CoreOS](https://coreos.com/) para se aproximar ao máximo da stack da Hash.
+O deploy foi feito utlizando o [Google Cloud Platform](https://cloud.google.com/) com Docker e [CoreOS](https://coreos.com/) para se aproximar ao máximo da stack da Hash.
 
 # Links
 
